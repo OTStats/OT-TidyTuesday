@@ -68,7 +68,7 @@ diversity_school %>%
        caption = "Created by: @OTStats") + 
   guides(size = F)
 
-ggsave(filename = glue(here("2020-03-02-college tuition"), "states-college-diversity.png"), 
+ggsave(filename = here("2020-03-10-college tuition", "states-college-diversity.png"), 
        width = 5, 
        height = 8.5)
 
