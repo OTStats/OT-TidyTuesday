@@ -4,6 +4,8 @@
 
 # ---- Load libraries
 library(tidyverse)
+library(glue)
+library(here)
 
 # ---- Get data
 # tuition_cost <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-10/tuition_cost.csv')
@@ -62,8 +64,12 @@ diversity_school %>%
   coord_flip() + 
   labs(title = "How diverse are state's universities?", 
        x = "", 
-       y = "Percent white students") + 
+       y = "Percent white students", 
+       caption = "Created by: @OTStats") + 
   guides(size = F)
 
+ggsave(filename = glue(here("2020-03-02-college tuition"), "states-college-diversity.png"), 
+       width = 5, 
+       height = 8.5)
 
 
