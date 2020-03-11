@@ -5,6 +5,6 @@ My TidyTuesday submissions.
 
 # Submissions
 
-[2020-03-10 College Tuition, Diversity, and Pay](/2020-03-10-college tuition)
+[2020-03-10 College Tuition, Diversity, and Pay](https://github.com/OTStats/OT-TidyTuesday/tree/master/2020-03-10-college%20tuition)
 
-![](/2020-03-10-college-tuition/states-college-diversity.png)
+![](https://github.com/OTStats/OT-TidyTuesday/blob/master/2020-03-10-college%20tuition/states-college-diversity.png)
