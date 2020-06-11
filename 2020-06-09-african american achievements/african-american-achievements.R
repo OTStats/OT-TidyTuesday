@@ -37,9 +37,12 @@ year_rank <- years %>%
   group_by(year) %>% 
   mutate(rank = 1:n())
 
+
+
+
 install.packages("gganimate")
 library(gganimate)
-options(gganimate.nframes = 50)
+options(gganimate.nframes = 100)
 plot <- year_rank %>% 
   filter(year > 2000) %>%
   ggplot() + 
@@ -97,6 +100,52 @@ plot2 + transition_states(year) +
   view_follow(fixed_x = TRUE)
 
 
+# Take 3 ####
+
+test <- years %>% 
+  left_join(yearly_firsts) %>% 
+  mutate(total = if_else(year == 1737, 0, as.numeric(total))) %>% 
+  group_by(category) %>% 
+  fill(total, .direction = "down") %>% 
+  ungroup() %>% 
+  mutate(rank = rank(-total),
+         total_rel = total/total[rank==1], 
+         total_lbl = str_c(" ", total))
+
+test %>% 
+  filter(year > 1900) %>% 
+  ggplot(aes(rank, group = category, fill = category)) +
+  geom_tile(aes(y = total/2,
+                height = total,
+                width = 0.9), alpha = 0.8, color = NA) +
+  geom_text(aes(y = 0, label = paste(category, " ")), vjust = 0.2, hjust = 1) + 
+  geom_text(aes(y = total, label = total_lbl, hjust=0)) +
+  coord_flip(clip = "off", expand = FALSE) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_x_reverse() + 
+  guides(fill = F) + 
+  # my_theme + 
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        legend.position="none",
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.grid.major.x = element_line( size=.1, color="grey" ),
+        panel.grid.minor.x = element_line( size=.1, color="grey" ),
+        plot.title=element_text(size=25, hjust=0.5, face="bold", colour="grey", vjust=-1),
+        plot.subtitle=element_text(size=18, hjust=0.5, face="italic", color="grey"),
+        plot.caption =element_text(size=8, hjust=0.5, face="italic", color="grey"),
+        plot.background=element_blank(),
+        plot.margin = margin(2,2, 2, 4, "cm")) +
+  scale_fill_viridis_d() + 
+  transition_states(year) + 
+  view_follow(fixed_x = TRUE)
   
 yearly_firsts %>% 
   ggplot(aes(x = year, y = total, color = category)) + 
