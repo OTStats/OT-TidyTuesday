@@ -6,6 +6,8 @@ library(tidyverse)
 individuals <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-23/individuals.csv')
 locations <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-06-23/locations.csv')
 
+# ---- Resources
+# https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/2041-210X.13374
 
 individuals
 locations %>% 
