@@ -22,14 +22,19 @@ friends_df <- friends_info %>%
          season_end_id = max(id)) %>% 
   ungroup()
 
+friends_season_text <- friends_df %>% 
+  group_by(season) %>% 
+  summarise(med_imdb_rating = median(imdb_rating), 
+            start_id = min(id) + 1) %>% 
+  mutate(season_text = if_else(season == 1, "Season 1", as.character(season)))
+
+
 friends_df %>% 
   ggplot(aes(x = id, y = imdb_rating)) + 
-  # vertical lines: Season median rating to episode rating line
   geom_segment(aes(x = id, 
                    xend = id, 
                    y = median_rating, 
                    yend = imdb_rating), color = "black", alpha = 0.4) + 
-  # horizontal lines: Season median rating
   geom_segment(aes(x = season_start_id, 
                    xend = season_end_id, 
                    y = median_rating,
@@ -37,13 +42,22 @@ friends_df %>%
                    color = as_factor(season)), 
                size = 1.5) + 
   geom_point(aes(fill = as_factor(season)), color = "black", pch = 21) + 
+  geom_text(data = friends_season_text, 
+            aes(x = start_id, 
+                y = med_imdb_rating, 
+                label = season_text, 
+                color = as_factor(season)), 
+            vjust = -0.25, 
+            hjust = 0, 
+            size = 6, 
+            alpha = .6) + 
   annotate(
     "text", 
-    x = 110, 
+    x = 120, 
     y = 7, 
-    hjust = 0, 
+    hjust = 0,
     vjust = 1, 
-    label = "Flashback episodes have\nthe lowest ratings", 
+    label = "Flashback episodes have the lowest ratings", 
     family = "friends", 
     size = 2.5, 
     alpha = 0.7
@@ -70,24 +84,64 @@ friends_df %>%
     size = 2.5,
     alpha = 0.7
     ) + 
+  annotate(
+    "text", 
+    x = 232, 
+    y = 9.7, 
+    hjust = 0, 
+    vjust = -1,
+    label = "The Last One(s)", 
+    family = "friends", 
+    size = 2.5,
+    alpha = 0.7
+    ) + 
+  annotate(
+    "text", 
+    x = 38, 
+    y = 9.4, 
+    hjust = 0, 
+    vjust = -1,
+    label = "The One with the Prom Video", 
+    family = "friends", 
+    size = 2.5,
+    alpha = 0.7
+    ) + 
   geom_curve(aes(x = 12, 
                  y = 7.8, 
                  xend = 14, 
                  yend = 8.15), 
              color = "grey", 
              curvature = .18, arrow = arrow(length = unit(0.02, "npc"))) + 
-  geom_curve(aes(x = 108, 
+  geom_curve(aes(x = 118, 
                  y = 6.9, 
                  xend = 95, 
                  yend = 7.1), 
              color = "grey", 
-             curvature = -.5, arrow = arrow(length = unit(0.03, "npc"))) + 
-  geom_curve(aes(x = 158, 
-                 y = 6.95, 
-                 xend = 164, 
-                 yend = 7.48), 
+             curvature = -.25, arrow = arrow(length = unit(0.03, "npc"))) + 
+  geom_curve(aes(x = 171, 
+                 y = 6.97, 
+                 xend = 188, 
+                 yend = 7.45), 
              color = "grey", 
-             curvature = .3, arrow = arrow(length = unit(0.03, "npc"))) + 
+             curvature = .45, arrow = arrow(length = unit(0.03, "npc"))) + 
+  geom_curve(aes(x = 170, 
+                 y = 6.9, 
+                 xend = 203, 
+                 yend = 7.45), 
+             color = "grey", 
+             curvature = .45, arrow = arrow(length = unit(0.03, "npc"))) + 
+  geom_curve(aes(x = 170, 
+                 y = 7.1, 
+                 xend = 167, 
+                 yend = 7.45), 
+             color = "grey", 
+             curvature = .45, arrow = arrow(length = unit(0.025, "npc"))) + 
+  geom_curve(aes(x = 147, 
+                 y = 7.1, 
+                 xend = 142, 
+                 yend = 7.35), 
+             color = "grey", 
+             curvature = -.1, arrow = arrow(length = unit(0.025, "npc"))) + 
   annotate(
     "text", 
     x = -5, 
@@ -137,8 +191,8 @@ friends_df %>%
   expand_limits(y = c(6.5, 10)) + 
   theme_minimal() + 
   theme(plot.title = element_text(hjust = .5, size = 35, face = "bold", family = "friends"), 
-        plot.subtitle = element_text(hjust = .5, vjust = -1, size = 10, family = "sans", color = "#6b6a60"), 
-        plot.caption = element_text(hjust = 0, size = 8, family = "sans", color = "#6b6a60"), 
+        plot.subtitle = element_text(hjust = .5, vjust = -1, size = 10, family = "sans", color = "#353831"), 
+        plot.caption = element_text(hjust = 0, size = 8, family = "sans", color = "#353831"), 
         panel.grid.major.x = element_blank(), 
         panel.grid.minor = element_blank(), 
         plot.margin = unit(c(1, .5, .5, .5), "cm"), 
