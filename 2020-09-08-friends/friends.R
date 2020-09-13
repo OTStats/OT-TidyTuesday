@@ -1,19 +1,23 @@
-
+# F R I E N D S
+# Owen Thompson
+# 2020-09-12
 
 # ---- Load libraries
 library(tidyverse)
 library(friends)
-
-extrafont::loadfonts('win')
-windowsFonts()
-extrafont::fonts()
+library(extrafont)
+# extrafont::loadfonts('win')
+# windowsFonts()
+# extrafont::fonts()
 # extrafont::font_import()
 
+# Download Friends font here: https://www.dafont.com/gabriel-weiss-friends.font
 # Resource: https://github.com/jack-davison/TidyTuesday/blob/master/R/2020_09_08_Friends.R
 library(showtext)
 showtext_auto()
-font_add(family = "friends", regular = "~/GABRWFFR.TTF")
+font_add(family = "friends", regular = here("2020-09-08-friends/GABRWFFR.TTF"))
 
+# ---- Data prep
 friends_df <- friends_info %>%
   mutate(id = row_number()) %>%
   group_by(season) %>% 
@@ -28,7 +32,7 @@ friends_season_text <- friends_df %>%
             start_id = min(id) + 1) %>% 
   mutate(season_text = if_else(season == 1, "Season 1", as.character(season)))
 
-
+# ---- Data viz
 friends_df %>% 
   ggplot(aes(x = id, y = imdb_rating)) + 
   geom_segment(aes(x = id, 
@@ -86,7 +90,7 @@ friends_df %>%
     ) + 
   annotate(
     "text", 
-    x = 232, 
+    x = 230, 
     y = 9.7, 
     hjust = 0, 
     vjust = -1,
@@ -199,3 +203,6 @@ friends_df %>%
         text = element_text(family = "friends"),
         # axis.text.y = element_text(family = "friends"), 
         axis.text.x = element_blank())
+
+# ---- Save plot
+ggsave(here("2020-09-08-friends/friends-episode-ratings.png"), width = 14, height = 9)
