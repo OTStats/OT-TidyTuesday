@@ -6,6 +6,7 @@
 library(tidyverse)
 library(friends)
 library(extrafont)
+library(here)
 # extrafont::loadfonts('win')
 # windowsFonts()
 # extrafont::fonts()
@@ -187,7 +188,7 @@ friends_df %>%
   scale_y_continuous(position = "right") + 
   labs(title = "F R I E N D S", 
        subtitle = "IMDb Ratings for all 236 Friends Episodes", 
-       caption = "Data from {friends}\nCreated by Owen Thompson\nTiwtter/Github: @OTStats", 
+       caption = "Data from {friends}\nCreated by Owen Thompson\nTwitter/Github: @OTStats", 
        x = "", 
        y = "IMDb Rating") + 
   guides(color = FALSE, 
